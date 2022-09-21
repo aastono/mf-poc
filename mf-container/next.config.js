@@ -1,29 +1,25 @@
 const {
   withModuleFederation,
 } = require("@module-federation/nextjs-mf");
+
 module.exports = {
   future: { webpack5: true },
   webpack: (config, options) => {
-    const { isServer } = options;
     const mfConf = {
-      mergeRuntime: true, //experimental
-      name: "mf-pro",
+      name: "mf-container",
       library: {
         type: config.output.libraryTarget,
-        name: "mf-pro",
+        name: "mf-container",
       },
-      filename: "static/runtime/mfProRemoteEntry.js",
       remotes: {
+        core: "mf-core",
+        pro: "mf-pro", 
       },
       exposes: {
-        "./pro": "./components/pro",
       },
     };
     config.cache = false;
     withModuleFederation(config, options, mfConf);
-    if (!isServer) {
-      config.output.publicPath = "https://mf-pro.vercel.app/_next/";
-    }
 
     return config;
   },
