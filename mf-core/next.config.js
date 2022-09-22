@@ -2,6 +2,7 @@ const {
   withModuleFederation,
 } = require("@module-federation/nextjs-mf");
 module.exports = {
+  experiments: { layer: true },
   future: { webpack5: true },
   webpack: (config, options) => {
     const { isServer } = options;
